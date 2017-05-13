@@ -3,6 +3,6 @@ import ReactDOM from 'react-dom';
 import Root from './modules/root';
 
 ReactDOM.render(
-  <App />,
+  <Root />,
   document.getElementById('root')
 );

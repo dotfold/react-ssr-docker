@@ -6,10 +6,8 @@ cache: yarn
 jobs:
   include:
     - script: yarn test
-    - stage: build
-      script: yarn run build
     - stage: deploy
-      script: skip
+      script: yarn run build
       deploy:
         provider: s3
         access_key_id: AKIAI7DF3SOOJU4SHBYQ

@@ -1,3 +1,6 @@
+sudo: required
+services:
+  - docker
 language: node_js
 node_js:
 - '6.1'
@@ -6,13 +9,21 @@ cache: yarn
 jobs:
   include:
     - script: yarn test
-    - stage: deploy
+    - stage: Build Static Assets
       script: yarn run build
       deploy:
         provider: s3
-        access_key_id: AKIAI7DF3SOOJU4SHBYQ
+        access_key_id: $AWS_ACCESS_ID
         secret_access_key:
-          secure: Gon0M8aI4aRXmwrWLFa81szeZEKNjnuYqZeMnDKRjdAIwjO7rkMljjoVD5WUA6Dqgf0k4/yMzNSFrHtb+5iGsgJFez0KY68LaEmv0UaSfG+U+HH0Gw44SWrGyn5M+RPPDoa9irqImpnjvkrQ4UHbloHfK1y+D1YaSUIpURzbDb5rqlfk0ILH8X67uMTcVshe27geIlBEx9MhNfRgE4IQf9exCM3iDELE6C/sKigV7mZ+v2Y2oP0i+6NeXyjThtsODZ/RHGfL1wiOU08JKYaaDsGER6p3TuAMj8d68X1MhtojQonMbZTjNtYpqg/Rj0qKv5rcwfqZZPORHu9T8Ir25j2c9IzVd62DOeN76oMXz5p960cab9u5x9P9B5GqSPF7Ob9qQjg3QS4GXq+AoSiLsxSZsPcoqfeNZWCxwomMqZP1MHTToR66sF7duDie2Io0TTuEVeO5OhW27VEjMvCjJmhvQEvSKTrCnJB/eQ74WR3SaulNVoqp0sB4dxssqdc/Y5u1PifWKA5KbssSGuIWXnq0sz3aQn4MMoA54pZSOBLQubktnB5vE8PKqtnsGsMfQMExp3J93N0pYmZWIZYjy0v7mwFPP357uqTTyJ6bXW099mOfYfFoopEwE6txRDdciBpXUy9S/6ayOtzzK2pC8hKC6xjZPtKxcgMHPKg1GZM=
+          secure: $AWS_SECRET_ACCESS_KEY
         bucket: react-ssr-docker
         skip_cleanup: true
         local_dir: deploy
+    - stage: Build Docker Image
+      script: scripts/build.sh
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u AWS -p $AWS_DOCKER_PASSWORD -e none https://396984747102.dkr.ecr.us-west-2.amazonaws.com
+    docker push 396984747102.dkr.ecr.us-west-2.amazonaws.com/react-ssr-docker:latest
+    fi

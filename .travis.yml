@@ -23,6 +23,6 @@ jobs:
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login -u AWS -p $AWS_DOCKER_PASSWORD -e none https://396984747102.dkr.ecr.us-west-2.amazonaws.com
+    docker login -u "AWS"" -p "$AWS_DOCKER_PASSWORD"" -e none https://396984747102.dkr.ecr.us-west-2.amazonaws.com
     docker push 396984747102.dkr.ecr.us-west-2.amazonaws.com/react-ssr-docker:latest
     fi

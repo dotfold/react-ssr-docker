@@ -18,9 +18,7 @@ const app = express()
 app.use('/static', express.static('./dist'))
 
 app.get('*', (req, res) => {
-  console.log('match route')
   const match = routes.reduce((acc, route) => matchPath(req.url, route, {exact: true}) || acc, null)
-  console.log('match?', match)
   if (!match) {
     res.status(404).send(render(<NoMatch />))
     return

@@ -36,6 +36,5 @@ module.exports = {
       }
     ]
   },
-  externals: nodeModules,
   devtool: 'source-map'
 }

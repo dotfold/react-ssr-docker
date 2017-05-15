@@ -4,13 +4,9 @@ const srcPath = path.resolve(__dirname, 'src')
 const distPath = path.resolve(__dirname, 'dist')
 
 var nodeModules = {};
-fs.readdirSync('node_modules')
-    .filter(function(x) {
-        return ['.bin'].indexOf(x) === -1;
-    })
-    .forEach(function(mod) {
-        nodeModules[mod] = 'commonjs ' + mod;
-    });
+fs.readdirSync(path.resolve(__dirname, 'node_modules'))
+    .filter(x => ['.bin'].indexOf(x) === -1)
+    .forEach(mod => { nodeModules[mod] = `commonjs ${mod}`; });
 
 module.exports = {
   context: srcPath,
@@ -33,8 +29,10 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader'
-      }
+      },
+      { test: /\.json$/, loader: "json-loader" }
     ]
   },
+  externals: nodeModules,
   devtool: 'source-map'
 }

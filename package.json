@@ -1,18 +1,33 @@
 {
   "name": "react-ssr-docker",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.server.js && webpack --config webpack.config.client.js",
+    "start": "node dist/server.js",
+    "dev:server": "webpack --config webpack.config.server.js --watch",
+    "dev:client": "webpack --config webpack.config.client.js --watch",
+    "dev:start": "nodemon dist/server.js --watch dist/server.js"
+  },
+  "license": "MIT",
   "dependencies": {
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "express": "^4.14.1",
+    "node-fetch": "^1.6.3",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
+    "source-map-support": "^0.4.11",
+    "whatwg-fetch": "^2.0.2"
   },
   "devDependencies": {
-    "react-scripts": "0.9.5"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && ./scripts/bundle.sh",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "babel-cli": "^6.22.2",
+    "babel-loader": "^6.2.10",
+    "babel-preset-latest": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "nodemon": "^1.11.0",
+    "webpack": "^2.2.1",
+    "webpack-node-externals": "^1.5.4"
   }
 }

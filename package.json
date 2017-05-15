@@ -10,6 +10,7 @@
     "dev:server": "webpack --config webpack.config.server.js --watch",
     "dev:client": "webpack --config webpack.config.client.js --watch",
     "dev:start": "nodemon dist/server.js --watch dist/server.js",
+    "release": "npm run build && ./scripts/prerelease",
     "test": "echo no tests"
   },
   "license": "MIT",

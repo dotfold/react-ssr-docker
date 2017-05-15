@@ -13,7 +13,8 @@ module.exports = {
   entry: './server/index.js',
   output: {
     path: distPath,
-    filename: 'server.js'
+    filename: 'server.js',
+    libraryTarget: 'commonjs2'
   },
   target: 'node',
   node: {
@@ -28,9 +29,18 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['env', {
+              'targets': {
+                'node': 'current'
+              }
+            }]
+          ]
+        }
       },
-      { test: /\.json$/, loader: "json-loader" }
+      { test: /\.json$/, loader: 'json-loader' }
     ]
   },
   externals: nodeModules,

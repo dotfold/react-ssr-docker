@@ -20,6 +20,7 @@ jobs:
         local_dir: deploy
     - stage: Build Docker Image
       deploy:
+        provider: script
         script: scripts/build.sh
         on:
           branch: master

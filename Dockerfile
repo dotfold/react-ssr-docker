@@ -11,14 +11,16 @@ RUN \
     chown username: /app && \
     ulimit -SHc 0
 
-RUN mkdir /react-ssr-docker && cd /react-ssr-docker && curl -L https://s3-us-west-2.amazonaws.com/react-ssr-docker/deploy-04cb9a4.tar.gz | tar xz --strip-components=1
+ARG GIT_SHA
+RUN mkdir /react-ssr-docker && cd /react-ssr-docker && curl -L https://s3-us-west-2.amazonaws.com/react-ssr-docker/deploy-$GIT_SHA.tar.gz | tar xz --strip-components=1
 
 RUN chown -R username:username /react-ssr-docker
 
-# Without this, Kibana tries to write the cache to /kibana, which the username we run as can't.
+# Without this, app tries to write the cache to /react-ssr-docker, which the username we run as can't.
 ENV BABEL_CACHE_PATH /tmp/babel.json
 
 COPY scripts/run.sh /sbin/entry-point
+EXPOSE 3000 80
 
-# pass to `entry-point` script to set UID:GID and start kibana
+# pass to `entry-point` script to set UID:GID and start react-ssr-docker
 CMD ["/sbin/entry-point"]

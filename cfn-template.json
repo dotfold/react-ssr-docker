@@ -179,7 +179,7 @@
     "ELB": {
       "Type":"AWS::ElasticLoadBalancingV2::LoadBalancer",
       "Properties":{
-        "Name": "semaphore-demo-elb",
+        "Name": "react-ssr-docker-elb",
         "Scheme":"internet-facing",
         "LoadBalancerAttributes":[
           {

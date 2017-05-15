@@ -1,3 +1,5 @@
 #! /bin/sh
 echo "running service!"
-exec node dist/server.js
+echo $(which node)
+echo $(node -v)
+exec node react-ssr-docker/server.js

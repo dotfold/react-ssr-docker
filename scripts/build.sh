@@ -1,9 +1,26 @@
 #!/bin/bash
 GIT_SHA=$(git rev-parse --short HEAD)
-docker build -t react-ssr-docker .
-# docker tag react-ssr-docker:${GIT_SHA} react-ssr-docker:latest
-# docker tag -f ${FULL_IMAGE_NAME}:${TAG_NAME} ${FULL_IMAGE_NAME}:latest
-# docker tag 396984747102.dkr.ecr.us-west-2.amazonaws.com/react-ssr-docker:${GIT_SHA} 396984747102.dkr.ecr.us-west-2.amazonaws.com/react-ssr-docker:latest
-docker tag react-ssr-docker:latest 396984747102.dkr.ecr.us-west-2.amazonaws.com/react-ssr-docker:latest
-docker login -u "AWS" -p "$AWS_DOCKER_PASSWORD" -e none https://396984747102.dkr.ecr.us-west-2.amazonaws.com
-docker push 396984747102.dkr.ecr.us-west-2.amazonaws.com/react-ssr-docker:latest
+
+# Push only if it's not a pull request
+if [ -z "$TRAVIS_PULL_REQUEST" ] || [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+  # Push only if we're testing the master branch
+  if [ "$TRAVIS_BRANCH" == "master" ]; then
+
+    # This is needed to login on AWS and push the image on ECR
+    # Change it accordingly to your docker repo
+    pip install --user awscli
+    export PATH=$PATH:$HOME/.local/bin
+    eval $(aws ecr get-login --region $AWS_DEFAULT_REGION)
+
+    # Build and push
+    docker build -t $IMAGE_NAME .
+    echo "Pushing $IMAGE_NAME:latest"
+    docker tag $IMAGE_NAME:latest "$REMOTE_IMAGE_URL:latest"
+    docker push "$REMOTE_IMAGE_URL:latest"
+    echo "Pushed $IMAGE_NAME:latest"
+  else
+    echo "Skipping deploy because branch is not 'master'"
+  fi
+else
+  echo "Skipping deploy because it's a pull request"
+fi

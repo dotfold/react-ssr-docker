@@ -10,7 +10,7 @@ jobs:
   include:
     - script: yarn test
     - stage: Build Static Assets
-      script: yarn run build
+      script: yarn run release
       deploy:
         provider: s3
         access_key_id: $AWS_ACCESS_KEY_ID

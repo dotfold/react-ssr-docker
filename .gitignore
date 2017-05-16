@@ -10,6 +10,7 @@
 /build
 /deploy
 /dist
+/test
 
 # misc
 .DS_Store

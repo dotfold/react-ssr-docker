@@ -12,9 +12,14 @@
     "dev:start": "nodemon dist/server.js --watch dist/server.js",
     "clean": "rimraf dist && rimraf deploy",
     "release": "npm run clean && npm run build && ./scripts/prerelease.sh && ./scripts/bundle.sh",
-    "test": "echo no tests"
+    "test": "jest",
+    "test:ci": "npm test && cat ./test/report/lcov.info | coveralls"
   },
   "license": "MIT",
+  "repository":{
+    "type" : "git",
+    "url" : "https://github.com/dotfold/react-ssr-docker.git"
+  },
   "dependencies": {
     "express": "^4.15.2",
     "node-fetch": "^1.6.3",
@@ -27,13 +32,35 @@
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
+    "babel-jest": "^20.0.1",
     "babel-loader": "^6.2.10",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.22.0",
+    "coveralls": "^2.13.1",
+    "jest": "^20.0.1",
     "json-loader": "^0.5.4",
     "nodemon": "^1.11.0",
+    "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.1",
     "webpack": "^2.2.1",
     "webpack-node-externals": "^1.5.4"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "<rootDir>/dist/*",
+      "<rootDir>/deploy/*"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/node_modules/**"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/dist/*",
+      "<rootDir>/deploy/*",
+      "<rootDir>/test/*",
+      "<rootDir>/webpack*"
+    ],
+    "coverageDirectory": "<rootDir>/test/report"
   }
 }

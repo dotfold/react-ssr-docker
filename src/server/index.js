@@ -17,6 +17,14 @@ sourceMapSupport.install()
 const app = express()
 app.use('/static', express.static('./dist'))
 
+app.get('/signup', (req, res) => {
+  res.status(200).send(
+    render(
+      <div>signup to ssr services</div>
+    )
+  )
+})
+
 app.get('*', (req, res) => {
   const match = routes.reduce((acc, route) => matchPath(req.url, route, {exact: true}) || acc, null)
   if (!match) {

@@ -29,16 +29,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            ['env', {
-              'targets': {
-                'node': 'current'
-              }
-            }]
-          ]
-        }
+        loader: 'babel-loader'
       },
       { test: /\.json$/, loader: 'json-loader' }
     ]

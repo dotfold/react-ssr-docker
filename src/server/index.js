@@ -18,6 +18,7 @@ const app = express()
 app.use('/static', express.static('./dist'))
 
 app.get('/signup', (req, res) => {
+  console.log('signup route')
   res.status(200).send(
     render(
       <div>signup to ssr services</div>
@@ -25,13 +26,22 @@ app.get('/signup', (req, res) => {
   )
 })
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   const match = routes.reduce((acc, route) => matchPath(req.url, route, {exact: true}) || acc, null)
   if (!match) {
     res.status(404).send(render(<NoMatch />))
     return
   }
 
+  // if (context.url) {
+    // res.writeHead(301, {
+    //   Location: context.url
+    // })
+    // res.end()
+    // console.log('context:', context.url)
+  // }
+
+  console.log('foo')
   res.status(200).send(
     render(
       (

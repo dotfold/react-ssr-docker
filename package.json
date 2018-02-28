@@ -16,9 +16,9 @@
     "test:ci": "npm test && cat ./test/report/lcov.info | coveralls"
   },
   "license": "MIT",
-  "repository":{
-    "type" : "git",
-    "url" : "https://github.com/dotfold/react-ssr-docker.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dotfold/react-ssr-docker.git"
   },
   "dependencies": {
     "express": "^4.15.2",
@@ -36,6 +36,7 @@
     "babel-loader": "^6.2.10",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.22.0",
+    "babel-preset-stage-0": "^6.24.1",
     "coveralls": "^2.13.1",
     "jest": "^20.0.1",
     "json-loader": "^0.5.4",
